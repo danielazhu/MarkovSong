@@ -10,4 +10,20 @@ public class Note {
 		this.length = length;
 		this.volume = volume;
 	}
+	
+	public void print() {
+		System.out.println("Note with key "+key+", length "+length+", and volume "+volume+".");
+	}
+	
+	public int getKey() {
+		return key;
+	}
+	
+	public int getVolume() {
+		return volume;
+	}
+	
+	public int getLength() {
+		return length;
+	}
 }
