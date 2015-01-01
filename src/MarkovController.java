@@ -1,35 +1,18 @@
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
 
 public class MarkovController {
 
+	private static final int CHAIN_DEPTH = 10;
+
 	public static void main(String[] args) {
-		MarkovChain<Integer, Note> noteChain = new MarkovChain<Integer, Note>();
-		(new SongReader()).loadSong("bin/bwv772.mid", noteChain);
+		MarkovChain<Integer, Note[]> noteChain = new MarkovChain<Integer, Note[]>();
+		SongReader songReader = new SongReader();
+		
+		songReader.loadSong("bin/music/bwv772.mid", noteChain, CHAIN_DEPTH);
+		songReader.loadSong("bin/music/bwv773.mid", noteChain, CHAIN_DEPTH);
+		songReader.loadSong("bin/music/bwv774.mid", noteChain, CHAIN_DEPTH);
+		songReader.loadSong("bin/music/bwv775.mid", noteChain, CHAIN_DEPTH);
+		songReader.loadSong("bin/music/bwv776.mid", noteChain, CHAIN_DEPTH);
 
-		try {
-			Synthesizer synth = MidiSystem.getSynthesizer();
-			synth.open();
-			MidiChannel[] channels = synth.getChannels();
-
-			int key = 67;
-			Note note;
-			
-			for (int i = 0; i < 50; i++) {
-				note = noteChain.get(key);
-				channels[0].noteOn(note.getKey(), note.getVolume());
-				Thread.sleep(note.getLength());
-				channels[0].noteOff(note.getKey());
-				note = noteChain.get(note.getKey());
-			}
-		} catch (MidiUnavailableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new MarkovPlayer(noteChain, CHAIN_DEPTH);
 	}
 }

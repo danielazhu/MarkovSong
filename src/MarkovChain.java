@@ -22,6 +22,8 @@ public class MarkovChain<E, T> {
 	
 	public T get(E e1) {
 		ArrayList<T> temp = hashMap.get(e1);
-		return temp.get((int) (Math.random() * temp.size()));
+		int woah = (int) (Math.random() * temp.size());
+		System.out.println(temp.size());
+		return temp.get(woah);
 	}
 }
